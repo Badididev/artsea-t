@@ -1,10 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import { useWow } from '@/customHooks/useWow';
-
+// import { useWow } from '@/customHooks/useWow';
 import useMagneticHover from "@/customHooks/useMagneticHover";
-import { kanit, inter, playfair_dispaly, work_sans } from "@/fonts/font";
-import { usePathname } from 'next/navigation'; // Import usePathname
+import {playfair_dispaly, work_sans } from "@/fonts/font";
+import { usePathname } from 'next/navigation';
 import "../../public/assets/css/bootstrap-icons.css";
 import "../../public/assets/css/boxicons.min.css";
 import "../../public/assets/css/swiper-bundle.min.css";
@@ -18,12 +17,21 @@ import "../../public/assets/css/style.css";
 import 'react-creative-cursor/dist/styles.css';
 import ThemeSwitch from "@/components/common/Theme";
 import ScrollProgress from "@/components/common/ScrollProgress";
+// In app/layout.tsx or similar
+import 'aos/dist/aos.css';
+import { useAOS } from "@/customHooks/useAOS"
+import { PrivyProvider } from '@/components/providers/PrivyProvider'
 
-export default function RootLayout({ children }) {
-  const pathname = usePathname(); // Get the current pathname
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
+  const pathname = usePathname();
 
   useMagneticHover();
-  useWow()
+  // useWow();
+  useAOS();
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -41,17 +49,12 @@ export default function RootLayout({ children }) {
         <meta name="keywords" content="next.js, SEO, meta tags" />
         <title>Artmart - Art & Auction NextJS Template.</title>
       </head>
-      <body id="body" className={` ${playfair_dispaly.variable} ${work_sans.variable}`}>
-        <ThemeSwitch/>
-        <ScrollProgress/>
-        {/* <div className="circle-container">
-          <svg className="circle-progress svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
-            >
-            </path>
-          </svg>
-        </div> */}
-        {children}
+      <body id="body" className={`${playfair_dispaly.variable} ${work_sans.variable}`}>
+        <ThemeSwitch />
+        <ScrollProgress />
+        <PrivyProvider>
+          {children}
+        </PrivyProvider>
       </body>
     </html>
   );
