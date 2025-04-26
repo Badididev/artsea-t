@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useAuthStore } from '@/store/auth-store'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { setAuth, setLoading, logout } = useAuthStore()
+  const { setLoading, logout } = useAuthStore()
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -17,7 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           ?.split('=')[1]
 
         if (isAuth && userId) {
-          setAuth(userId)
+          
         } else {
           logout()
         }
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     checkAuth()
-  }, [setAuth, setLoading, logout])
+  }, [setLoading, logout])
 
   return <>{children}</>
 }

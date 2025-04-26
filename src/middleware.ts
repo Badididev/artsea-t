@@ -30,10 +30,14 @@ export default async function middleware(req: NextRequest) {
     const verifiedToken = await client.verifyAuthToken(token);
     console.log('[Middleware] Token verified:', verifiedToken);
 
+    // Access the userId property
+    const userId = verifiedToken.userId;
+    console.log('[Middleware] User ID:', userId);
+
     // Set auth cookies
     const response = NextResponse.next();
     response.cookies.set('isAuthenticated', 'true');
-    response.cookies.set('userId', verifiedToken.subject);
+    response.cookies.set('userId', userId);
     return response;
   } catch (err) {
     console.error('[Middleware] Invalid token:', err);

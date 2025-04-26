@@ -12,10 +12,9 @@ const privy = new PrivyClient(
 );
 
 export async function getPrivyToken() {
-  const cookieStore = await cookies(); // Added await here
+  const cookieStore = await cookies();
   const token = cookieStore.get("privy-token")?.value ?? null;
   
-  // Add logging for debugging
   console.log('[Auth] Token found:', token ? 'Yes' : 'No');
   
   return token;
@@ -40,7 +39,6 @@ export async function getPrivyUser() {
   }
 }
 
-// Function to check authentication like the middleware
 export async function checkAuthentication() {
   const authToken = await getPrivyToken();
   
@@ -52,7 +50,7 @@ export async function checkAuthentication() {
   try {
     console.log('[Auth] Verifying token in checkAuthentication...');
     const verifiedUser = await privy.verifyAuthToken(authToken);
-    console.log('[Auth] User authenticated:', verifiedUser.id);
+    console.log('[Auth] User authenticated:', verifiedUser.userId); // Changed from id to userId
     return { 
       authenticated: true,
       user: verifiedUser
