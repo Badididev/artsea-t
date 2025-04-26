@@ -1,0 +1,166 @@
+/* ArtistRequestForm.module.css */
+.arfCard {
+    max-width: 48rem; /* Replaced max-w-3xl */
+    @apply w-full mx-auto bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-2xl rounded-2xl border border-gray-200/50 dark:border-gray-800/50;
+  }
+  
+  .arfHeader {
+    @apply bg-gradient-to-r from-indigo-200 to-teal-200 dark:from-gray-800 dark:to-gray-900 rounded-t-2xl p-6;
+  }
+  
+  .arfTitle {
+    @apply text-3xl font-bold text-gray-900 dark:text-white;
+  }
+  
+  .arfDescription {
+    @apply text-gray-600 dark:text-gray-300 mt-1;
+  }
+  
+  .arfProgressBar {
+    @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full mt-4 overflow-hidden;
+  }
+  
+  .arfProgressFill {
+    @apply h-full bg-gradient-to-r from-indigo-500 to-teal-500 dark:from-indigo-400 dark:to-teal-400 transition-all duration-500 ease-out;
+  }
+  
+  .arfContent {
+    @apply pt-8 px-6 pb-6;
+  }
+  
+  .arfForm {
+    @apply space-y-8;
+  }
+  
+  .arfAlert {
+    @apply animate-fade-in rounded-lg;
+  }
+  
+  .arfAlertError {
+    @apply bg-red-50 text-red-800 border-red-200;
+  }
+  
+  .arfAlertSuccess {
+    @apply bg-green-50 text-green-800 border-green-200;
+  }
+  
+  .arfSection {
+    @apply space-y-4;
+  }
+  
+  .arfSectionTitle {
+    @apply text-xl font-semibold text-gray-800 dark:text-gray-200;
+  }
+  
+  .arfSeparator {
+    @apply bg-gray-200 dark:bg-gray-700;
+  }
+  
+  .arfFormItem {
+    @apply relative space-y-2 animate-slide-in;
+  }
+  
+  .arfLabel {
+    @apply text-base font-medium text-gray-800 dark:text-gray-200 transition-all duration-200 absolute left-3 top-3 pointer-events-none;
+  }
+  
+  .arfInputWrapper {
+    @apply relative;
+  }
+  
+  .arfInput {
+    @apply border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 pt-6;
+  }
+  
+  .arfTextarea {
+    @apply border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 pt-6 resize-none;
+  }
+  
+  .arfInputError {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+  
+  .arfValidIcon {
+    @apply absolute right-3 top-1/2 transform -translate-y-1/2;
+  }
+  
+  .arfFormItemFooter {
+    @apply flex justify-between items-center mt-1;
+  }
+  
+  .arfCharCount {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+  
+  .arfFormMessage {
+    @apply text-sm text-red-500 dark:text-red-400;
+  }
+  
+  .arfGrid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  }
+  
+  .arfOptional {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+  
+  .arfButton {
+    @apply w-full py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-indigo-600 to-teal-600 text-white hover:from-indigo-700 hover:to-teal-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 relative overflow-hidden;
+  }
+  
+  /* Ripple effect for button */
+  .arfButton::after {
+    content: '';
+    @apply absolute w-0 h-0 bg-white/20 rounded-full;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+  
+  .arfButton:hover::after {
+    @apply w-96 h-96;
+  }
+  
+  .arfFooter {
+    @apply text-sm text-gray-500 dark:text-gray-400 text-center py-4 border-t border-gray-200/50 dark:border-gray-800/50;
+  }
+  
+  /* Floating label effect */
+  .arfInput:not(:placeholder-shown) ~ .arfLabel,
+  .arfTextarea:not(:placeholder-shown) ~ .arfLabel {
+    @apply transform -translate-y-5 scale-75 origin-top-left text-indigo-600 dark:text-indigo-400;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+  
+  .arfAlertError {
+    animation: shake 0.5s ease-in-out;
+  }

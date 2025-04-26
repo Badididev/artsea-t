@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const privyUser = await privy.getUser(userId);
 
     // Log the entire user object to see its structure
-    console.log('Privy user data:', JSON.stringify(privyUser, null, 2));
+    // console.log('Privy user data:', JSON.stringify(privyUser, null, 2));
 
     // Extract email from the first linked account that has an email
     // Type guard to check if the account has an email

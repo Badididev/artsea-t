@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,11 +8,55 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
-  privyId       String    @unique   // Changed from privy_id
+  id            String         @id @default(cuid())
+  privyId       String         @unique
+  email         String?        @unique
   name          String?
   walletAddress String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  isArtist      Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  artistRequest ArtistRequest?
+  artworks      Artwork[]
+}
+
+model ArtistRequest {
+  id              String        @id @default(cuid())
+  userId          String        @unique
+  firstName       String
+  lastName        String
+  country         String
+  city            String
+  dateOfBirth     DateTime
+  bio             String        @db.Text
+  portfolio       String // Changed from String? to String
+  experienceYears Int
+  artStyle        String
+  socialLinks     String?       @db.Text
+  status          RequestStatus @default(PENDING)
+  submittedAt     DateTime      @default(now())
+  reviewedAt      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
+model Artwork {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  imageUrl    String
+  price       Float
+  artistId    String
+  artist      User     @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

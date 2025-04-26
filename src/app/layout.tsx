@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 // import { useWow } from '@/customHooks/useWow';
 import useMagneticHover from "@/customHooks/useMagneticHover";
+import './globals.css';
 import {playfair_dispaly, work_sans } from "@/fonts/font";
 import { usePathname } from 'next/navigation';
 import "../../public/assets/css/bootstrap-icons.css";
@@ -21,6 +22,9 @@ import ScrollProgress from "@/components/common/ScrollProgress";
 import 'aos/dist/aos.css';
 import { useAOS } from "@/customHooks/useAOS"
 import { PrivyProvider } from '@/components/providers/PrivyProvider'
+import { Toaster } from "sonner"
+import { ChakraProvider } from "@chakra-ui/react";
+import { AuthProvider } from '@/components/providers/auth-provider'
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -53,7 +57,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <ThemeSwitch />
         <ScrollProgress />
         <PrivyProvider>
-          {children}
+          <AuthProvider>
+            {children}
+            <Toaster richColors closeButton position="top-right" />
+          </AuthProvider>
         </PrivyProvider>
       </body>
     </html>

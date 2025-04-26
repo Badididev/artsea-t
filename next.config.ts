@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   // Make sure there are no settings disabling middleware
   experimental: {
     // Any experimental features you want to enable
+   
     // Note: In Next.js 15, middleware should be fully supported without experimental flags
   },
   logging: {

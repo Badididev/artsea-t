@@ -19,10 +19,7 @@ export default async function middleware(req: NextRequest) {
 
   if (!token) {
     console.log('[Middleware] No token found, redirecting to home');
-    // Update cookies to reflect auth state
-    const response = NextResponse.redirect(new URL('/', req.url));
-    response.cookies.set('isAuthenticated', 'false');
-    return response;
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   try {
@@ -30,15 +27,10 @@ export default async function middleware(req: NextRequest) {
     const verifiedToken = await client.verifyAuthToken(token);
     console.log('[Middleware] Token verified:', verifiedToken);
 
-    // Set auth cookies
-    const response = NextResponse.next();
-    response.cookies.set('isAuthenticated', 'true');
-    response.cookies.set('userId', verifiedToken.subject);
-    return response;
+    // If token is valid, allow access
+    return NextResponse.next();
   } catch (err) {
     console.error('[Middleware] Invalid token:', err);
-    const response = NextResponse.redirect(new URL('/', req.url));
-    response.cookies.set('isAuthenticated', 'false');
-    return response;
+    return NextResponse.redirect(new URL('/', req.url));
   }
 }
