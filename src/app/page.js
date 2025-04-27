@@ -1,17 +1,19 @@
-import Home1About from "@/components/about/Home1About";
+import dynamic from "next/dynamic";
 import Footer from "@/components/common/Footer";
 import Header1 from "@/components/common/Header1";
 import Banner1 from "@/components/home/Banner1";
-import Home1AboutSection from "@/components/home/Home1AboutSection";
-import Home1ArticleSection from "@/components/home/Home1ArticleSection";
-import Home1ArtisticSection from "@/components/home/Home1ArtisticSection";
-import Home1ArtistSection from "@/components/home/Home1ArtistSection";
-import Home1AuctionSliderSection from "@/components/home/Home1AuctionSliderSection";
-import Home1FaqSection from "@/components/home/Home1FaqSection";
-import Home1FeatureSection from "@/components/home/Home1FeatureSection";
-import Home1GeneralArtSliderSection from "@/components/home/Home1GeneralArtSliderSection";
-import Home1TestimonialSection from "@/components/home/Home1TestimonialSection";
-import Home1UpcomingAuctionSliderSection from "@/components/home/Home1UpcomingAuctionSliderSection";
+
+// Dynamically import components for lazy loading
+const Home1AboutSection = dynamic(() => import("@/components/home/Home1AboutSection"));
+const Home1ArtisticSection = dynamic(() => import("@/components/home/Home1ArtisticSection"));
+const Home1AuctionSliderSection = dynamic(() => import("@/components/home/Home1AuctionSliderSection"));
+const Home1ArtistSection = dynamic(() => import("@/components/home/Home1ArtistSection"));
+const Home1GeneralArtSliderSection = dynamic(() => import("@/components/home/Home1GeneralArtSliderSection"));
+const Home1FeatureSection = dynamic(() => import("@/components/home/Home1FeatureSection"));
+const Home1UpcomingAuctionSliderSection = dynamic(() => import("@/components/home/Home1UpcomingAuctionSliderSection"));
+const Home1TestimonialSection = dynamic(() => import("@/components/home/Home1TestimonialSection"));
+const Home1ArticleSection = dynamic(() => import("@/components/home/Home1ArticleSection"));
+const Home1FaqSection = dynamic(() => import("@/components/home/Home1FaqSection"));
 
 export default function Home() {
   return (
@@ -29,7 +31,6 @@ export default function Home() {
       <Home1ArticleSection />
       <Home1FaqSection />
       <Footer />
-
     </>
   );
 }

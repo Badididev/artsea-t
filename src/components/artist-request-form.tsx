@@ -96,10 +96,10 @@ const SectionTitle = styled.h3`
   align-items: center;
 
   &[data-isopen="true"]::after {
-    content: "\\2212";
+    content: "-";
   }
   &[data-isopen="false"]::after {
-    content: "\\002B";
+    content: "+";
   }
 `;
 

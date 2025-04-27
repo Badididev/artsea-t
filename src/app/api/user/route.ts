@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { PrivyClient } from "@privy-io/server-auth";
+import { PrivyClient } from '@privy-io/server-auth';
 
 const prisma = new PrismaClient();
 const privy = new PrivyClient(
@@ -10,46 +10,46 @@ const privy = new PrivyClient(
 
 export async function POST(req: Request) {
   try {
-    const { userId } = await req.json();
+    const body = await req.json();
+    const { userId } = body;
 
-    if (!userId) {
-      return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
+    if (!userId || typeof userId !== 'string') {
+      return NextResponse.json({ error: 'Invalid or missing userId' }, { status: 400 });
     }
 
     // Get user data from Privy
     const privyUser = await privy.getUser(userId);
+    if (!privyUser) {
+      return NextResponse.json({ error: 'User not found in Privy' }, { status: 404 });
+    }
 
-    // Log the entire user object to see its structure
-    // console.log('Privy user data:', JSON.stringify(privyUser, null, 2));
+    // Log full Privy user data for debugging
+    console.log('Privy user data:', JSON.stringify(privyUser, null, 2));
 
-    // Extract email from the first linked account that has an email
-    // Type guard to check if the account has an email
-    const hasEmail = (acc: typeof privyUser.linkedAccounts[number]): acc is typeof acc & { email: string } => {
-      return 'email' in acc && typeof acc.email === 'string';
-    };
-
+    // Extract email
     const email =
-      privyUser?.linkedAccounts?.find(hasEmail)?.email ||
-      privyUser?.google?.email ||
+      (privyUser.email && typeof privyUser.email === 'object' && privyUser.email.address) || // Email from privyUser.email.address
+      privyUser.linkedAccounts?.find((acc) => acc.type === 'email')?.address || // Email from linked accounts
+      privyUser.google?.email || // Google auth email
       null;
 
-
-    // Extract wallet address if available
+    // Extract wallet address
     const walletAddress =
-      privyUser?.linkedAccounts?.find(acc => acc.type === 'wallet')?.address ||
+      privyUser.linkedAccounts?.find((acc) => acc.type === 'wallet')?.address ||
       null;
 
-    // Use name from Google account or create a display name
+    // Type guard for name in linked accounts
     const hasName = (acc: typeof privyUser.linkedAccounts[number]): acc is typeof acc & { name: string } => {
-      return 'name' in acc && typeof acc.name === 'string';
+      return 'name' in acc && typeof acc.name === 'string' && !!acc.name;
     };
-    
-    const name = 
-      privyUser?.google?.name ||
-      privyUser?.linkedAccounts?.find(hasName)?.name ||
+
+    // Extract name
+    const name =
+      privyUser.google?.name ||
+      privyUser.linkedAccounts?.find(hasName)?.name ||
       (email ? email.split('@')[0] : 'Anonymous');
-    
-    console.log('Extracted data:', { email, walletAddress, name });
+
+    console.log('Extracted data:', { userId, email, walletAddress, name });
 
     // Save or update in database
     const user = await prisma.user.upsert({
@@ -67,9 +67,11 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ message: 'User saved', user });
+    return NextResponse.json({ message: 'User saved successfully', user });
   } catch (err) {
     console.error('Error saving user:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 }

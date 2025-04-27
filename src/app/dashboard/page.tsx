@@ -146,7 +146,7 @@ const Dashboard: React.FC = () => {
               <div className="portfolio-info-wrap">
                 <div className="portfolio-content">
                   <h4>
-                    Hello, Welcome, {user?.email?.address || user?.wallet?.address}!
+                    Hello, Welcome, {user?.email?.address}!
                     <svg
                       width={22}
                       height={22}
