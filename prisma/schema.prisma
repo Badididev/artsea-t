@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime       @updatedAt
   artistRequest ArtistRequest?
   artworks      Artwork[]
+  profile       Profile?
 }
 
 model ArtistRequest {
@@ -59,4 +60,24 @@ enum RequestStatus {
   PENDING
   APPROVED
   REJECTED
+}
+model Profile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName   String?
+  biography     String?  @db.Text
+  avatarUrl     String?
+  coverImageUrl String?
+  socialLinks   Json?    // Store multiple social links as JSON
+  location      String?  // City, Country format or separate fields
+  websiteUrl    String?
+  isVerified    Boolean  @default(false)
+  featured      Boolean  @default(false)
+  joinedDate    DateTime @default(now())
+  lastActive    DateTime @default(now()) @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([userId])
 }

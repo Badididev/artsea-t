@@ -27,7 +27,9 @@ const nextConfig: NextConfig = {
   env: {
     // Non-sensitive variables only
   },
-  
+  compiler: {
+    styledComponents: true,
+  },
   postcss: true,  // Enable PostCSS processing
 };
 
